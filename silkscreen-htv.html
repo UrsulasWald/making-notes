@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTVで版を作る — 簡易シルクスクリーン メモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Archivo:wght@400;500;700;900&family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15110d;
+  --paper:#ebe3d4;
+  --paper2:#e2d8c4;
+  --red:#e8331c;
+  --red-deep:#b81f0d;
+  --teal:#1f7a6e;
+  --blue:#2b5fb8;
+  --line:#15110d;
+  --muted:#6b6256;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px 110px;position:relative;}
+
+.backnav{padding:26px 0 0;}
+.backnav a{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:.2s;}
+.backnav a:hover{color:var(--ink);border-color:var(--red);}
+
+header{padding:54px 0 38px;position:relative;}
+.kicker{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;}
+h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(46px,11vw,98px);line-height:.92;letter-spacing:.01em;position:relative;}
+/* 版ズレ風の重なり */
+h1 .ja{display:block;font-family:'Zen Kaku Gothic Antique',sans-serif;font-weight:900;font-size:clamp(30px,7vw,58px);line-height:1.05;position:relative;}
+h1 .ja::before{content:attr(data-t);position:absolute;left:3px;top:3px;color:var(--red);z-index:-1;opacity:.85;}
+.sub-en{font-family:'Anton',sans-serif;color:var(--red);font-size:clamp(20px,4vw,34px);letter-spacing:.02em;margin-top:14px;display:block;}
+.lede{font-size:clamp(15px,2.2vw,18px);max-width:580px;color:#3a342b;margin-top:24px;}
+.hand{font-family:'Archivo',sans-serif;font-style:italic;font-weight:500;color:var(--muted);font-size:14px;}
+
+.rule{border:none;border-top:2px solid var(--line);margin:38px 0 34px;}
+.rule.dashed{border-top:2px dashed var(--line);opacity:.5;}
+
+.sec-num{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--red-deep);margin-bottom:8px;}
+.sec-title{font-family:'Zen Kaku Gothic Antique',sans-serif;font-weight:900;font-size:clamp(24px,4.5vw,36px);line-height:1.15;margin-bottom:14px;}
+.sec-lead{font-size:15.5px;color:#3a342b;margin-bottom:24px;max-width:600px;}
+.sec-lead.muted{color:var(--muted);}
+.hl{background:linear-gradient(transparent 58%, rgba(232,51,28,.3) 58%);font-weight:700;}
+
+/* 原理 */
+.principle p{font-size:15.5px;margin-bottom:13px;color:#332e26;}
+
+/* 道具 */
+.tools{border:2px solid var(--line);background:var(--paper2);}
+.tool-row{display:flex;gap:18px;padding:16px 20px;border-bottom:1px solid rgba(21,17,13,.18);}
+.tool-row:last-child{border-bottom:none;}
+.tool-name{flex:0 0 38%;font-weight:700;font-size:15px;}
+.tool-name .en{display:block;font-family:'Archivo',sans-serif;font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.tool-desc{flex:1;font-size:13.5px;color:#473f34;line-height:1.65;}
+.have{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:4px;}
+
+/* インク2択 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.card{border:2px solid var(--line);background:var(--paper2);padding:22px 22px 24px;position:relative;}
+.card .tag{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;color:#fff;padding:3px 10px;display:inline-block;margin-bottom:12px;}
+.card .tag.a{background:var(--blue);}
+.card .tag.b{background:var(--red);}
+.card h4{font-size:18px;font-weight:900;margin-bottom:3px;}
+.card .jp-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px;}
+.card ul{list-style:none;}
+.card li{font-size:13.5px;color:#3a342b;padding-left:16px;position:relative;margin-bottom:8px;line-height:1.6;}
+.card li::before{content:"—";position:absolute;left:0;color:var(--red);}
+.verdict{margin-top:14px;font-size:13px;font-weight:700;border-top:1.5px solid var(--line);padding-top:12px;}
+
+/* 手順 */
+.steps{counter-reset:s;}
+.pstep{display:flex;gap:18px;padding:18px 0;border-bottom:1px dashed rgba(21,17,13,.3);}
+.pstep:last-child{border-bottom:none;}
+.pstep .n{font-family:'Anton',sans-serif;font-size:30px;color:var(--red);line-height:1;min-width:42px;}
+.pstep h3{font-size:16.5px;font-weight:700;margin-bottom:5px;}
+.pstep p{font-size:14px;color:#473f34;}
+
+/* 注意 */
+.warns{display:flex;flex-direction:column;gap:12px;}
+.warn{border-left:5px solid var(--red);background:var(--paper2);padding:15px 18px;font-size:14.5px;color:#332e26;}
+.warn.tip{border-left-color:var(--teal);}
+.warn b{font-weight:900;}
+
+/* mesh */
+.mesh{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;}
+.mesh .m{border:2px solid var(--line);background:var(--paper2);padding:15px 16px;}
+.mesh .m .num{font-family:'Anton',sans-serif;font-size:26px;color:var(--red);line-height:1;}
+.mesh .m h4{font-size:14.5px;margin:5px 0 5px;}
+.mesh .m p{font-size:12.5px;color:var(--muted);line-height:1.6;}
+
+.realtalk{background:var(--ink);color:#ece3d2;padding:28px 28px 24px;position:relative;margin-top:18px;}
+.realtalk::before{content:"正直なところ";position:absolute;top:-13px;left:20px;background:var(--red);color:#fff;font-size:12px;font-weight:700;letter-spacing:.1em;padding:3px 12px;}
+.realtalk p{font-size:14.5px;color:#d8cfbe;}
+
+footer{padding:46px 0 0;border-top:2px solid var(--line);margin-top:40px;}
+.meta{font-family:'Archivo',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+::selection{background:var(--red);color:#fff;}
+
+@media(max-width:640px){
+  .duo{grid-template-columns:1fr;}
+  .mesh{grid-template-columns:1fr;}
+  .tool-row{flex-direction:column;gap:4px;}
+  .tool-name{flex:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Upcycle Index</a></nav>
+
+  <header>
+    <div class="kicker">Printmaking / silkscreen without emulsion</div>
+    <h1>
+      <span class="ja" data-t="HTVで版を作る">HTVで版を作る</span>
+      <span class="sub-en">SILKSCREEN, THE EASY WAY</span>
+    </h1>
+    <p class="lede">
+      感光乳剤も露光ライトもいらない。アイロンシート（HTV）を切ってメッシュに貼るだけで、版ができる。
+      布に乗るのは100%スクリーン用インクだから、仕上がりは純粋なインク感。
+      <span class="hand">— two inks, one frame.</span>
+    </p>
+  </header>
+
+  <hr class="rule">
+
+  <!-- 原理 -->
+  <section>
+    <div class="sec-num">／ 01 ＿ HOW IT WORKS</div>
+    <h2 class="sec-title">なぜ乳剤なしで版になるのか</h2>
+    <div class="principle">
+      <p>メッシュを張った枠に、<span class="hl">HTV（熱転写ビニール）をアイロンで貼る</span>。デザインの形に切り抜いた部分だけ、インクが通って布に乗る。</p>
+      <p>つまりHTVは型をつくる材料で、<span class="hl">布に乗るのは100%スクリーン用のインク</span>。だから仕上がりは純粋なインク感。あの苦手なビニールのテカリも段差も、布には一切残らない。</p>
+      <p>感光乳剤の「塗る→光で焼く→水で洗う」を、<span class="hl">「シートを切る→アイロンで貼る」に置き換えただけ</span>と考えるとわかりやすい。</p>
+    </div>
+  </section>
+
+  <hr class="rule dashed">
+
+  <!-- 道具 -->
+  <section>
+    <div class="sec-num">／ 02 ＿ WHAT YOU NEED</div>
+    <h2 class="sec-title">必要なもの</h2>
+    <p class="sec-lead muted">カッティングマシンなし・手切り前提のリスト。乳剤も露光ライトもいらない。</p>
+    <div class="tools">
+      <div class="tool-row">
+        <div class="tool-name">メッシュを張った枠<span class="en">screen + frame</span></div>
+        <div class="tool-desc">専用枠じゃなくてOK。木枠＋シルクスクリーン用メッシュを自分で張るか、刺繍枠でも可。「メッシュ張り済み」の完成品が数千円で買える。</div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">HTV（アイロンシート）<span class="en">heat transfer vinyl</span></div>
+        <div class="tool-desc">版の「壁」になる部分。布に残らないので色は何でもいい。日本では「アイロンプリントシート／熱転写シート」で買える。</div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">カッター＋マット<span class="en">cutter + mat</span></div>
+        <div class="tool-desc">手切り用。<span class="have">たぶん持ってる</span></div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">アイロン<span class="en">iron</span></div>
+        <div class="tool-desc">HTVをメッシュに圧着する用。家のやつでOK。<span class="have">持ってる</span></div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">スキージー（ヘラ）<span class="en">squeegee</span></div>
+        <div class="tool-desc">インクを押し広げる道具。プラ製の安いもので十分。</div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">養生テープ<span class="en">masking tape</span></div>
+        <div class="tool-desc">枠まわりの隙間を目張りして、インク漏れを防ぐ。</div>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">インク<span class="en">ink</span></div>
+        <div class="tool-desc">今回は2種類を試す → 次のセクションへ。</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule dashed">
+
+  <!-- インク2択 -->
+  <section>
+    <div class="sec-num">／ 03 ＿ TWO INKS</div>
+    <h2 class="sec-title">インクは2通り試す</h2>
+    <p class="sec-lead">手元のアクリルガッシュを活かす道と、布用の専用インクを買う道。どっちもやって、自分の手と目で違いを確かめる。</p>
+    <div class="duo">
+      <div class="card">
+        <span class="tag a">PLAN A</span>
+        <h4>ガッシュ＋布用メディウム</h4>
+        <div class="jp-sub">手元の色を活かす</div>
+        <ul>
+          <li>ガッシュ単体は布だと割れる・落ちる・ゴワつく</li>
+          <li>布用メディウムを混ぜると塗膜が柔らかく伸縮に追従する</li>
+          <li>混合比はガッシュ：メディウム＝1:1〜2:1が目安</li>
+          <li>ガッシュはサラサラなので、メッシュから垂れないよう粘度を上げる</li>
+        </ul>
+        <div class="verdict">→ 手持ちの色でまず試したいとき</div>
+      </div>
+      <div class="card">
+        <span class="tag b">PLAN B</span>
+        <h4>布用スクリーンインク</h4>
+        <div class="jp-sub">Speedball など専用品</div>
+        <ul>
+          <li>はじめからスクリーン用に作られた水性インク</li>
+          <li>染み込んだインク感・耐久性・洗濯耐性すべて上</li>
+          <li>水性だから扱いも後片付けもラク</li>
+          <li>1本1,500〜2,000円くらい。最初の1本を買うのが結局の近道</li>
+        </ul>
+        <div class="verdict">→ 仕上がりに本当に満足したいとき</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule dashed">
+
+  <!-- 手順 -->
+  <section>
+    <div class="sec-num">／ 04 ＿ PROCESS</div>
+    <h2 class="sec-title">作る流れ</h2>
+    <div class="steps">
+      <div class="pstep"><div class="n">1</div><div><h3>デザインを左右反転して用意</h3><p>Illustratorでデザインを左右反転し、原寸でプリント（ガイド用）。版は裏から貼るので反転させておく。</p></div></div>
+      <div class="pstep"><div class="n">2</div><div><h3>HTVを切る（カス取り）</h3><p>HTVのツヤ面を上にして反転デザインを写し、カッターで切る。インクを通したい部分＝HTVを切り抜いて剥がす。</p></div></div>
+      <div class="pstep"><div class="n">3</div><div><h3>メッシュの裏側に圧着</h3><p>メッシュの裏側（布に当たる面）にHTVを置き、アイロンで圧着する。</p></div></div>
+      <div class="pstep"><div class="n">4</div><div><h3>枠まわりを目張り</h3><p>枠の余白を養生テープで目張りして、インク漏れを防ぐ。</p></div></div>
+      <div class="pstep"><div class="n">5</div><div><h3>インクをスキージーで引く</h3><p>Tシャツに乗せて、インクを置き、スキージーで一気に引く。力を均一に、一方向で。</p></div></div>
+      <div class="pstep"><div class="n">6</div><div><h3>剥がして、熱で定着</h3><p>枠を剥がして乾かし、アイロンの熱で定着。インクの説明書通りの温度・時間で。</p></div></div>
+    </div>
+  </section>
+
+  <hr class="rule dashed">
+
+  <!-- メッシュ番手 -->
+  <section>
+    <div class="sec-num">／ 05 ＿ MESH COUNT</div>
+    <h2 class="sec-title">メッシュの番手（地味な失敗ポイント）</h2>
+    <p class="sec-lead muted">数字が大きいほど目が細かい。布用は中間くらいが扱いやすい。</p>
+    <div class="mesh">
+      <div class="m"><div class="num">80〜110</div><h4>粗め</h4><p>インクがたっぷり乗る。ベタ塗り・厚い布向き。細部はつぶれやすい。</p></div>
+      <div class="m"><div class="num">110〜160</div><h4>中間</h4><p>布プリントの定番。最初の一枚はこのあたりが無難。</p></div>
+      <div class="m"><div class="num">200〜</div><h4>細かい</h4><p>細い線・細部向き。インクが通りにくく、布だと目詰まりしやすい。</p></div>
+    </div>
+  </section>
+
+  <hr class="rule dashed">
+
+  <!-- 注意 -->
+  <section>
+    <div class="sec-num">／ 06 ＿ FAIL POINTS</div>
+    <h2 class="sec-title">きをつけること</h2>
+    <div class="warns">
+      <div class="warn"><b>ガッシュ単体はNG。</b>布用メディウムを必ず混ぜる。混ぜないと洗濯で落ちる・ひび割れる。</div>
+      <div class="warn"><b>粘度を見る。</b>サラサラすぎるとメッシュから垂れてにじむ。メディウムや増粘で調整。</div>
+      <div class="warn tip"><b>端切れでテスト。</b>本番の前に必ず捨て布で1回。割れ方・染み込み・乾いた手触りを自分の目で確かめる。</div>
+      <div class="warn tip"><b>定着は説明書通りに。</b>熱定着の温度・時間を守らないと、せっかくの版も1回の洗濯で台無しに。</div>
+    </div>
+  </section>
+
+  <div class="realtalk">
+    <p>「インク感が好き」なら、たぶん本当に満足するのは専用インクのほう。でも「まず家にあるもので試したい」気持ちも本物。だから、捨ててもいい端切れでガッシュ＋メディウムを一回テストしてみるのがいい。割れ方や手触りを自分で見れば、専用インクを買う価値があるか腹落ちする。結論より、まず手を動かして気づくほうの順番で。</p>
+  </div>
+
+  <footer>
+    <div class="meta">Printmaking note / HTV Silkscreen — two inks, one frame</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旅の写真集を、Kindleで売る — 作り方と売り方メモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Libre+Franklin:ital,wght@0,400;0,600;0,800;1,400&family=Zen+Old+Mincho:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d2321;
+  --paper:#f3efe6;
+  --paper2:#ebe5d7;
+  --stamp:#c0473a;
+  --stamp-deep:#9a3329;
+  --sea:#2b6e7e;
+  --gold:#b88a2e;
+  --line:#1d2321;
+  --muted:#6f6a5e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:var(--paper);color:var(--ink);line-height:1.82;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:780px;margin:0 auto;padding:0 22px 110px;position:relative;}
+
+.backnav{padding:26px 0 0;}
+.backnav a{font-family:'Libre Franklin',sans-serif;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:.2s;}
+.backnav a:hover{color:var(--stamp);border-color:var(--stamp);}
+
+header{padding:50px 0 40px;position:relative;}
+/* パスポートスタンプ風 */
+.passport-stamp{position:absolute;top:42px;right:0;width:128px;height:128px;border:3px solid var(--stamp);border-radius:50%;display:flex;align-items:center;justify-content:center;transform:rotate(-12deg);opacity:.9;}
+.passport-stamp span{font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--stamp);text-align:center;line-height:1.5;}
+.passport-stamp::before{content:"";position:absolute;inset:8px;border:1.5px dashed var(--stamp);border-radius:50%;}
+.tag{font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--stamp);margin-bottom:18px;display:block;}
+h1{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(36px,7.5vw,68px);line-height:1.08;letter-spacing:.005em;}
+h1 .en{display:block;font-family:'Libre Franklin',sans-serif;font-style:italic;font-weight:400;font-size:clamp(15px,2.6vw,22px);color:var(--muted);margin-top:14px;letter-spacing:.01em;}
+.lede{font-size:clamp(15px,2.2vw,18px);max-width:600px;color:#3a3830;margin-top:24px;}
+.lede b{font-weight:700;color:var(--stamp-deep);}
+
+/* チケット風スペック */
+.ticket{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid var(--line);margin-top:32px;background:var(--paper2);}
+.ticket .cell{padding:14px 16px;border-right:1px dashed rgba(29,35,33,.4);}
+.ticket .cell:last-child{border-right:none;}
+.ticket .lab{font-family:'Libre Franklin',sans-serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.ticket .val{font-family:'Zen Old Mincho',serif;font-weight:600;font-size:16px;margin-top:3px;}
+
+section{padding:32px 0;border-top:2px solid var(--line);}
+.num{font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--stamp);margin-bottom:8px;}
+h2{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(24px,4.2vw,36px);line-height:1.18;margin-bottom:14px;}
+.lead{font-size:15.5px;color:#3a3830;margin-bottom:22px;max-width:620px;}
+mark{background:linear-gradient(transparent 56%, rgba(192,71,58,.26) 56%);font-weight:700;}
+
+/* design points */
+.points{display:flex;flex-direction:column;gap:0;border:2px solid var(--line);background:var(--paper2);}
+.pt{padding:20px 22px;border-bottom:1px dashed rgba(29,35,33,.4);}
+.pt:last-child{border-bottom:none;}
+.pt h4{font-family:'Zen Old Mincho',serif;font-size:18px;font-weight:600;margin-bottom:5px;}
+.pt h4 .en{font-family:'Libre Franklin',sans-serif;font-style:italic;font-weight:400;font-size:13px;color:var(--muted);margin-left:6px;}
+.pt p{font-size:14px;color:#473f34;}
+
+/* 言語の見せ方 3案 */
+.lang3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:8px;}
+.lang3 .l{border:2px solid var(--line);background:var(--paper2);padding:16px 16px 18px;}
+.lang3 .l .n{font-family:'Libre Franklin',sans-serif;font-weight:800;font-size:11px;color:var(--sea);letter-spacing:.1em;}
+.lang3 .l h4{font-family:'Zen Old Mincho',serif;font-size:15px;margin:5px 0 6px;}
+.lang3 .l p{font-size:12.5px;color:var(--muted);line-height:1.65;}
+
+/* royalty table */
+.roy{border:2px solid var(--line);background:var(--paper2);}
+.roy .row{display:flex;padding:13px 18px;border-bottom:1px dashed rgba(29,35,33,.4);align-items:baseline;gap:12px;}
+.roy .row:last-child{border-bottom:none;}
+.roy .store{flex:1;font-weight:700;font-size:15px;}
+.roy .store small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:1px;}
+.roy .pct{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:22px;color:var(--stamp);min-width:64px;text-align:right;}
+.roy .row.kdp{background:rgba(192,71,58,.08);}
+
+/* steps */
+.steps{counter-reset:s;margin-top:6px;}
+.pstep{display:flex;gap:18px;padding:18px 0;border-bottom:1px dashed rgba(29,35,33,.35);}
+.pstep:last-child{border-bottom:none;}
+.pstep .s{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:26px;color:var(--stamp);line-height:1;min-width:40px;}
+.pstep h3{font-family:'Zen Old Mincho',serif;font-size:16.5px;font-weight:600;margin-bottom:4px;}
+.pstep p{font-size:14px;color:#473f34;}
+
+.tip{border-left:5px solid var(--sea);background:var(--paper2);padding:15px 18px;font-size:14px;color:#3a3830;margin-top:14px;}
+.tip b{font-weight:700;}
+
+.realtalk{background:var(--ink);color:#ece6d8;padding:28px 28px 24px;position:relative;margin-top:18px;}
+.realtalk::before{content:"正直なところ";position:absolute;top:-13px;left:20px;background:var(--stamp);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;padding:3px 12px;}
+.realtalk p{font-size:14.5px;color:#d6d0c2;}
+
+footer{padding:44px 0 0;border-top:2px solid var(--line);margin-top:40px;}
+.meta{font-family:'Libre Franklin',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+::selection{background:var(--stamp);color:#fff;}
+
+@media(max-width:680px){
+  .ticket{grid-template-columns:repeat(2,1fr);}
+  .ticket .cell:nth-child(2){border-right:none;}
+  .ticket .cell:nth-child(1),.ticket .cell:nth-child(2){border-bottom:1px dashed rgba(29,35,33,.4);}
+  .lang3{grid-template-columns:1fr;}
+  .passport-stamp{width:92px;height:92px;top:38px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Upcycle Index</a></nav>
+
+  <header>
+    <div class="passport-stamp"><span>self<br>publish<br>2026</span></div>
+    <span class="tag">making &amp; selling — photo book</span>
+    <h1>旅の写真集を、<br>Kindleで売る。
+      <span class="en">a three-language travel photo book, sold worldwide.</span>
+    </h1>
+    <p class="lede">
+      過去の旅先の写真を、簡単な<b>3カ国語キャプション</b>でまとめる。固定レイアウトなら誌面そのまま出せて、
+      フォント混在が武器になる。Amazon一発で、世界中の本棚に並ぶ。
+    </p>
+    <div class="ticket">
+      <div class="cell"><div class="lab">Type</div><div class="val">固定レイアウト</div></div>
+      <div class="cell"><div class="lab">Language</div><div class="val">3カ国語</div></div>
+      <div class="cell"><div class="lab">Royalty</div><div class="val">35%プラン</div></div>
+      <div class="cell"><div class="lab">Store</div><div class="val">Amazon中心</div></div>
+    </div>
+  </header>
+
+  <!-- 企画の設計ポイント -->
+  <section>
+    <div class="num">／ 01 design</div>
+    <h2>この企画ならではの設計</h2>
+    <p class="lead">写真メイン＋短いキャプションの旅の記録本。リフロー型だと多言語組版が崩れるけど、固定レイアウトなら誌面そのまま出せる。</p>
+    <div class="points">
+      <div class="pt">
+        <h4>言語の見せ方を最初に決める<span class="en">layout first</span></h4>
+        <p>3言語の配置で誌面の印象が決まる。それぞれに別の書体・サイズ・向きを与えて、キャプション自体をデザイン要素にすると面白い。説明過多にならないよう、キャプションは地名＋一言くらい短く。</p>
+      </div>
+      <div class="pt">
+        <h4>翻訳はDeepLが手元にある強み<span class="en">translate</span></h4>
+        <p>LOST IN TRANSLATIONでDeepL APIを触っているので、キャプション翻訳はお手のもの。ただ短い詩的なキャプションほど機械翻訳が硬くなりがちなので、最後は手で整える前提で。</p>
+      </div>
+      <div class="pt">
+        <h4>判型は「横長・見開き」を推したい<span class="en">format</span></h4>
+        <p>旅の風景なら横構図が多いはず。横長判型で見開きにすると写真集として強い。縦写真は片側に写真＋もう片側にキャプション、で逃がせる。</p>
+      </div>
+      <div class="pt">
+        <h4>画質とファイルサイズのバランス<span class="en">file size</span></h4>
+        <p>35%プランは配信コストがかからないので画質を妥協しなくていい。ただしKDPには固定レイアウトで概ね650MBの上限。InDesignのEPUB書き出しでJPEG「高」、解像度150〜200ppiが現実的な落としどころ。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 言語の見せ方3案 -->
+  <section>
+    <div class="num">／ 02 captions</div>
+    <h2>3言語キャプション、見せ方3案</h2>
+    <div class="lang3">
+      <div class="l"><div class="n">PLAN 1</div><h4>下に縦に積む</h4><p>写真の下に3言語を順番に。いちばん素直で読みやすい。</p></div>
+      <div class="l"><div class="n">PLAN 2</div><h4>余白に散らす</h4><p>誌面の余白に3言語を配置。余白を怖がらないなら映える。</p></div>
+      <div class="l"><div class="n">PLAN 3</div><h4>書体で階層をつける</h4><p>言語ごとに級数・書体・向きを変える。混在そのものを意匠に。</p></div>
+    </div>
+    <div class="tip"><b>検索される言葉も意識。</b>中身が3カ国語でも、タイトル・説明文・キーワードを多言語（少なくとも英語）で用意しないと見つけてもらえない。</div>
+  </section>
+
+  <!-- 売り方・ストア比較 -->
+  <section>
+    <div class="num">／ 03 where to sell</div>
+    <h2>取り分か、人の多さか</h2>
+    <p class="lead">取り分だけ見るとKindleの35%は他より低い。でも本が一番売れるのはAmazon。「70%×売れない」より「35%×よく売れる」が手取りで上回ることは普通に起きる。</p>
+    <div class="roy">
+      <div class="row"><div class="store">楽天Kobo<small>税込299円以上で70%／直接登録は無料</small></div><div class="pct">70%</div></div>
+      <div class="row"><div class="store">Apple Books<small>世界中のApple端末／直接登録は無料</small></div><div class="pct">70%</div></div>
+      <div class="row"><div class="store">Google Play ブックス<small>Android圏に強い</small></div><div class="pct">52/70%</div></div>
+      <div class="row kdp"><div class="store">Kindle（35%プラン）<small>一番人が来る／他ストアにも自由に出せる</small></div><div class="pct">35%</div></div>
+    </div>
+    <div class="tip"><b>海外狙いならAmazon一択でほぼ正解。</b>出版した時点で世界中のAmazon（米・英・独・仏・日…）に同時に並ぶ。優先順位をつけるなら Amazon →（足すなら）Apple Books → Google Play。楽天Koboは海外目的だと優先度低め。</div>
+  </section>
+
+  <!-- 進め方 -->
+  <section>
+    <div class="num">／ 04 order</div>
+    <h2>無理のない進め方</h2>
+    <div class="steps">
+      <div class="pstep"><div class="s">1</div><div><h3>まずKindleで1冊きちんと出す</h3><p>固定レイアウトは表示確認が要るので、最初の一冊で完成度を上げることに集中。</p></div></div>
+      <div class="pstep"><div class="s">2</div><div><h3>反応を見る</h3><p>出してみて、売れ方・読まれ方を確認。ここで初めて次の手が見える。</p></div></div>
+      <div class="pstep"><div class="s">3</div><div><h3>効果が大きそうなストアを1〜2個足す</h3><p>慣れたら楽天KoboやApple Booksを追加。最初から全部に出すのは作業量のわりにリターンが薄い。</p></div></div>
+    </div>
+  </section>
+
+  <div class="realtalk">
+    <p>もし「手数料を取られず取り分100%で売りたい」気持ちが強いなら、BOOTHやpixivFANBOX、自分のサイトでEPUB/PDFを直接手売りする道もある。Little Mirrorや古民家暮らしの記録みたいな本なら、Amazonの中だけで戦うより、イベントや自分の場で直接手渡すほうが相性がいいことも。まずは1冊出して、自分の本がどう読まれるかを見てから決めればいい。</p>
+  </div>
+
+  <footer>
+    <div class="meta">Making &amp; Selling / Travel Photo Book on Kindle — a making note</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャップを、溶かして固める — Upcycle 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Archivo:wght@400;600;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16161a;
+  --pink:#ff1f8e;
+  --pink-deep:#e60074;
+  --yellow:#ffe600;
+  --cyan:#00c2ff;
+  --green:#2fe06a;
+  --paper:#ffffff;
+  --bg:#fbfbfb;
+  --line:#16161a;
+  --muted:#5c5a62;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(22,22,26,.05) 1px, transparent 0);background-size:24px 24px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 24px;}
+
+.backnav{padding:26px 0 0;}
+.backnav a{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:.2s;}
+.backnav a:hover{color:var(--ink);border-color:var(--green);}
+
+header{padding:54px 0 56px;position:relative;}
+.tag{display:inline-block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;background:var(--ink);color:#fff;padding:7px 15px;margin-bottom:26px;}
+h1{font-size:clamp(40px,8vw,76px);font-weight:900;line-height:1.04;letter-spacing:-.02em;margin-bottom:24px;}
+h1 .en{display:block;font-family:'Archivo Black',sans-serif;font-size:clamp(16px,3vw,26px);letter-spacing:.02em;color:var(--green);margin-top:10px;text-transform:uppercase;}
+.lede{font-size:clamp(16px,2.4vw,20px);max-width:620px;color:#2c2b30;}
+.hand{display:inline-block;font-family:'Archivo',sans-serif;font-style:italic;font-weight:600;color:var(--muted);font-size:15px;margin-left:2px;}
+.swatches{display:flex;gap:9px;margin-top:34px;}
+.swatches span{width:38px;height:38px;border:2px solid var(--line);border-radius:50%;}
+
+section{padding:30px 0;border-top:2px solid var(--line);}
+.kicker{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+h2{font-size:clamp(26px,4.5vw,40px);font-weight:900;line-height:1.12;letter-spacing:-.01em;margin-bottom:22px;}
+
+.principle{background:var(--paper);border:2px solid var(--line);padding:38px 34px;box-shadow:8px 8px 0 var(--yellow);}
+.principle .big{font-family:'Archivo Black',sans-serif;font-size:clamp(38px,9vw,80px);line-height:1;margin:6px 0 20px;letter-spacing:-.03em;}
+.principle p{font-size:16px;color:#2c2b30;margin-bottom:14px;}
+.note{font-size:14.5px!important;color:var(--muted)!important;border-left:3px solid var(--cyan);padding-left:14px;}
+
+.resin{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:6px;}
+.rcard{border:2px solid var(--line);background:var(--paper);padding:18px 20px;position:relative;}
+.rcard .badge{position:absolute;top:14px;right:16px;font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.1em;padding:3px 9px;color:#fff;}
+.rcard.ok .badge{background:var(--green);color:var(--ink);}
+.rcard.ng .badge{background:var(--pink);}
+.rcard.cau .badge{background:var(--yellow);color:var(--ink);}
+.rcard strong{display:block;font-size:18px;margin-bottom:6px;}
+.rcard small{font-size:13.5px;color:var(--muted);line-height:1.6;display:block;}
+.rcard .mark{display:inline-block;margin-top:10px;font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.08em;border:1.5px solid var(--line);padding:3px 8px;}
+
+.materials{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:2px solid var(--line);background:var(--paper);}
+.mat{padding:20px 22px;border-bottom:2px solid var(--line);border-right:2px solid var(--line);}
+.mat:nth-child(2n){border-right:none;}
+.mat:nth-last-child(-n+2){border-bottom:none;}
+.mat .n{font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--green);}
+.mat strong{display:block;font-size:16px;margin:3px 0 5px;}
+.mat small{font-size:13px;color:var(--muted);line-height:1.6;}
+
+.steps{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--line);}
+.step{display:flex;gap:22px;padding:24px 4px;border-bottom:2px solid var(--line);align-items:flex-start;}
+.step .num{font-family:'Archivo Black',sans-serif;font-size:34px;line-height:1;color:var(--ink);min-width:54px;}
+.step .micro{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink-deep);}
+.step h3{font-size:19px;margin:3px 0 7px;}
+.step p{font-size:14.5px;color:#3a3940;}
+
+.warn-head{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-deep);}
+.warns{display:flex;flex-direction:column;gap:13px;margin-top:14px;}
+.warn{display:flex;gap:15px;align-items:flex-start;background:var(--paper);border:2px solid var(--line);padding:17px 18px;}
+.warn .mk{font-family:'Archivo Black',sans-serif;font-size:18px;line-height:1.1;min-width:30px;}
+.warn .mk.danger{color:var(--pink);}
+.warn .mk.tip{color:var(--cyan);}
+.warn span b{font-weight:900;}
+.warn span{font-size:14.5px;color:#33323a;}
+
+.uses{display:flex;flex-wrap:wrap;gap:11px;margin-top:6px;}
+.uses .chip{border:2px solid var(--line);padding:9px 18px;border-radius:50px;font-size:15px;font-weight:700;background:var(--paper);}
+.uses .chip:nth-child(4n){background:var(--cyan);}
+.uses .chip:nth-child(4n+1){background:var(--yellow);}
+.uses .chip:nth-child(4n+2){background:var(--green);}
+
+.realtalk{margin-top:18px;background:var(--ink);color:#f2f2f4;border:2px solid var(--line);padding:30px 30px 26px;position:relative;}
+.realtalk::before{content:"正直なところ";position:absolute;top:-14px;left:22px;background:var(--green);color:var(--ink);font-size:12px;font-weight:700;letter-spacing:.1em;padding:4px 13px;}
+.realtalk p{font-size:15px;color:#dcdce0;}
+
+footer{padding:46px 0 80px;border-top:2px solid var(--line);margin-top:30px;}
+.meta{font-family:'Archivo',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+::selection{background:var(--green);color:var(--ink);}
+
+@media(max-width:640px){
+  .resin{grid-template-columns:1fr;}
+  .materials{grid-template-columns:1fr;}
+  .mat{border-right:none!important;}
+  .mat:nth-last-child(2){border-bottom:2px solid var(--line);}
+  .step{gap:14px;}
+  .step .num{font-size:26px;min-width:40px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Upcycle Index</a></nav>
+
+  <header>
+    <span class="tag">Upcycle / 02 — Bottle Caps</span>
+    <h1>キャップを、<br>溶かして固める。
+      <span class="en">Melting Bottle Caps</span>
+    </h1>
+    <p class="lede">
+      捨てるキャップを色ごとに集めて、熱で溶かして型に流す。マーブル模様はぜんぶ偶然。
+      <span class="hand">— a candidate, not a conclusion.</span>
+    </p>
+    <div class="swatches">
+      <span style="background:#ff1f8e"></span>
+      <span style="background:#ffe600"></span>
+      <span style="background:#00c2ff"></span>
+      <span style="background:#2fe06a"></span>
+      <span style="background:#16161a"></span>
+    </div>
+  </header>
+
+  <!-- 原理 -->
+  <section>
+    <div class="kicker">なぜできるのか — why</div>
+    <div class="principle">
+      <h2 style="margin-bottom:0;">溶かして、型で固める。</h2>
+      <div class="big">CAP → 塊</div>
+      <p>ペットボトルのキャップは熱で溶けるプラスチック（多くがPPかHDPE）。砕かなくても、低温のオーブンで時間をかけて溶かせば一つの塊になる。冷えると固まるので、溶けた状態で型に押し込めば形が作れる。色を混ぜればマーブルに。</p>
+      <p class="note">レジ袋（PE）と違って、キャップは溶ける温度が高め。アイロンでは無理で、オーブンの熱が必要。これがシリーズ01との一番の違い。</p>
+    </div>
+  </section>
+
+  <!-- 素材の見分け -->
+  <section>
+    <div class="kicker">そのまえに — 素材の見分け</div>
+    <h2>溶かしていいプラ、ダメなプラ。</h2>
+    <p style="margin-bottom:22px;color:#3a3a42;max-width:600px;">プラスチックには種類があって、溶ける温度も出るガスも違う。キャップの裏や容器に三角マークの数字があるので、そこを確認するのが基本。</p>
+    <div class="resin">
+      <div class="rcard ok"><span class="badge">OK</span><strong>PP（ポリプロピレン）</strong><small>ボトルキャップに一番多い。比較的低温で溶け、扱いやすい。</small><span class="mark">▲ 5 / PP</span></div>
+      <div class="rcard ok"><span class="badge">OK</span><strong>HDPE（高密度ポリエチレン）</strong><small>キャップや洗剤ボトルに多い。これも溶かして固められる。</small><span class="mark">▲ 2 / HDPE</span></div>
+      <div class="rcard ng"><span class="badge">NG</span><strong>PVC（塩化ビニル）</strong><small>加熱すると有害な塩素系ガスが出る。絶対に溶かさない。</small><span class="mark">▲ 3 / PVC</span></div>
+      <div class="rcard cau"><span class="badge">注意</span><strong>PET（ボトル本体）</strong><small>キャップではなくボトル本体。溶ける温度が高く家庭では扱いにくい。混ぜない。</small><span class="mark">▲ 1 / PET</span></div>
+    </div>
+  </section>
+
+  <!-- 材料 -->
+  <section>
+    <div class="kicker">用意するもの — kit</div>
+    <h2>道具は、わけて考える。</h2>
+    <div class="materials">
+      <div class="mat"><span class="n">01</span><strong>キャップ</strong><small>洗って乾かす。色ごとに分けるとマーブルが作れる。PP/HDPEで統一。</small></div>
+      <div class="mat"><span class="n">02</span><strong>オーブン／トースター</strong><small>食品と兼用しないのが大前提（後述）。温度設定できるものが安心。</small></div>
+      <div class="mat"><span class="n">03</span><strong>クッキングシート</strong><small>天板やトレーに敷く。溶けたプラの貼り付き防止。</small></div>
+      <div class="mat"><span class="n">04</span><strong>型（モールド）</strong><small>金属やシリコンなど耐熱のもの。マフィン型・小皿・クッキー型など。</small></div>
+      <div class="mat"><span class="n">05</span><strong>耐熱手袋・ヘラ</strong><small>溶けたプラは熱い。押し固める道具と、やけど対策。</small></div>
+      <div class="mat"><span class="n">06</span><strong>換気・マスク</strong><small>窓を開ける／換気扇。においが出るので必須。</small></div>
+    </div>
+  </section>
+
+  <!-- 手順 -->
+  <section>
+    <div class="kicker">つくりかた — process</div>
+    <h2>過程はぜんぶ、こう。</h2>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><div>
+        <span class="micro">Collect &amp; Wash</span>
+        <h3>キャップを集めて洗う</h3>
+        <p>同じ種類（PP/HDPE）のキャップを集める。中身が残ってると焦げやにおいの原因になるので、洗ってしっかり乾燥。色別に分けておくと模様が狙える。</p>
+      </div></div>
+      <div class="step"><div class="num">02</div><div>
+        <span class="micro">Arrange</span>
+        <h3>シートの上に並べる</h3>
+        <p>クッキングシートを敷いたトレーに、キャップを並べる。色を混ぜると溶けたときにマーブルに。量が多いほど厚い塊になる。</p>
+      </div></div>
+      <div class="step"><div class="num">03</div><div>
+        <span class="micro">Melt — low &amp; slow</span>
+        <h3>低温でじっくり溶かす</h3>
+        <p>低めの温度（目安150〜200℃前後／要テスト）で様子を見ながら溶かす。高温で一気にやると焦げて変色・煙が出る。とにかく低温・長め・換気しながら。</p>
+      </div></div>
+      <div class="step"><div class="num">04</div><div>
+        <span class="micro">Shape</span>
+        <h3>型に入れて押す</h3>
+        <p>溶けてまとまったら、耐熱手袋で取り出して型に入れ、ヘラなどで押し固める。コースターなら平らに、立体物なら型へ。冷めると固まり始めるのでスピード勝負。</p>
+      </div></div>
+      <div class="step"><div class="num">05</div><div>
+        <span class="micro">Cool</span>
+        <h3>完全に冷ます</h3>
+        <p>常温でしっかり冷やす。急いで水に入れると割れたり反ったりすることがある。固まったら型から外す。</p>
+      </div></div>
+      <div class="step"><div class="num">06</div><div>
+        <span class="micro">Finish</span>
+        <h3>削る・磨く・仕上げる</h3>
+        <p>バリ（はみ出し）はカッターやヤスリで整える。穴を開ければキーホルダーやオーナメントにも。サンドペーパーで磨くと質感が変わる。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 注意点 -->
+  <section>
+    <div class="kicker">きをつけること</div>
+    <span class="warn-head">Safety &amp; Fail Points</span>
+    <div class="warns">
+      <div class="warn"><div class="mk danger">!!</div><span><b>食品用の器具と兼用しない。</b>プラを溶かしたオーブン・トレー・型で食べ物を扱うのは避ける。中古の安いトースターを「プラ専用」にするのが一番安全。専用と決めたものは食品に戻さない。</span></div>
+      <div class="warn"><div class="mk danger">!!</div><span><b>必ず換気する。</b>溶かすとにおいと煙が出る。窓を開ける・換気扇を回す。可能なら屋外や換気の良い作業場で。気分が悪くなったら中止。</span></div>
+      <div class="warn"><div class="mk danger">!!</div><span><b>PVCは絶対に溶かさない。</b>三角マーク▲3は有害ガス。素材表示のないキャップも混ぜない。</span></div>
+      <div class="warn"><div class="mk tip">✓</div><span><b>高温で一気にやらない。</b>焦げ・変色・煙の原因。低温で時間をかけるほどキレイに溶ける。</span></div>
+      <div class="warn"><div class="mk tip">✓</div><span><b>急冷しない。</b>溶けた塊を急に冷やすと割れ・反りが出る。常温でゆっくり。</span></div>
+    </div>
+  </section>
+
+  <!-- 用途 -->
+  <section>
+    <div class="kicker">なにに使える — uses</div>
+    <h2>固めて、削って、形に。</h2>
+    <div class="uses">
+      <span class="chip">コースター</span>
+      <span class="chip">カードスタンド</span>
+      <span class="chip">キーホルダー</span>
+      <span class="chip">オーナメント</span>
+      <span class="chip">ボタン・タグ</span>
+    </div>
+    <div class="realtalk">
+      <p>キャップ溶かしで一番大事なのは、結局「食品器具と分ける」こと。ここさえ守れば、あとは低温・換気・ゆっくり、の3点でほぼ失敗しない。マーブルは狙ってもコントロールしきれないから、偶然を楽しむくらいがちょうどいい。まず少量で一回、自分のオーブンの溶け方を見てから本番に。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="meta">Upcycle Series 02 / Melting Bottle Caps — a making note</div>
+  </footer>
+
+</div>
+</body>
+</html>

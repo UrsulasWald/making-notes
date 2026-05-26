@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スポンジで、布に押す — block print note</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400&family=Zen+Old+Mincho:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1614;
+  --paper:#f4ece0;
+  --paper2:#eee2d2;
+  --red:#d6362b;
+  --red-deep:#9e1f1a;
+  --indigo:#27406b;
+  --ochre:#c98a2e;
+  --line:#1a1614;
+  --muted:#8a7a66;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:740px;margin:0 auto;padding:0 22px 110px;position:relative;}
+
+.backnav{padding:26px 0 0;}
+.backnav a{font-family:'Cormorant',serif;font-size:15px;font-style:italic;letter-spacing:.04em;color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:.2s;}
+.backnav a:hover{color:var(--red);border-color:var(--red);}
+
+header{padding:50px 0 36px;position:relative;}
+.tag{font-family:'Cormorant',serif;font-style:italic;font-size:17px;color:var(--red);letter-spacing:.03em;margin-bottom:16px;display:block;}
+h1{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:clamp(40px,9vw,76px);line-height:1.06;letter-spacing:.01em;}
+h1 .en{display:block;font-family:'Cormorant',serif;font-style:italic;font-weight:500;font-size:clamp(18px,3.6vw,30px);color:var(--muted);letter-spacing:.02em;margin-top:14px;}
+.lede{font-size:clamp(15px,2.2vw,17.5px);max-width:560px;color:#3c342c;margin-top:24px;}
+.lede b{font-weight:700;color:var(--red-deep);}
+
+/* スタンプの列（手押し感） */
+.stamp-row{display:flex;gap:14px;margin-top:30px;align-items:center;}
+.stamp{width:42px;height:42px;border:2px solid var(--line);position:relative;}
+.stamp.s1{background:var(--red);border-radius:50%;}
+.stamp.s2{background:var(--indigo);transform:rotate(8deg);}
+.stamp.s3{background:var(--ochre);border-radius:50% 50% 50% 0;}
+.stamp.s4{background:transparent;border-width:3px;transform:rotate(-6deg);}
+.stamp.s5{background:var(--red-deep);width:42px;height:42px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);border:none;}
+
+section{padding:30px 0;border-top:1.5px solid var(--line);}
+.num{font-family:'Cormorant',serif;font-style:italic;font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+h2{font-family:'Zen Old Mincho',serif;font-weight:700;font-size:clamp(23px,4vw,32px);line-height:1.2;margin-bottom:8px;}
+h2 small{display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:400;font-size:14px;color:var(--muted);margin-top:5px;}
+
+mark{background:linear-gradient(transparent 55%, rgba(214,54,43,.28) 55%);color:inherit;padding:0 1px;font-weight:700;}
+
+/* AB */
+.ab{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+.acard{border:1.5px solid var(--line);background:var(--paper2);padding:22px 22px 24px;position:relative;}
+.acard .lab{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:30px;color:var(--red);line-height:1;}
+.acard h4{font-family:'Zen Old Mincho',serif;font-size:19px;font-weight:700;margin:4px 0 2px;}
+.acard .sub{font-size:13px;color:var(--muted);margin-bottom:13px;}
+.acard p{font-size:14px;color:#3c342c;line-height:1.7;}
+.pick{margin-top:14px;font-size:13px;font-weight:700;color:var(--red-deep);border-top:1px solid var(--line);padding-top:11px;}
+
+/* kit */
+.kit{list-style:none;border:1.5px solid var(--line);background:var(--paper2);}
+.kit li{padding:13px 18px;border-bottom:1px solid rgba(26,22,20,.15);font-size:15px;font-weight:700;}
+.kit li:last-child{border-bottom:none;}
+.kit li span{display:block;font-weight:400;font-size:13px;color:var(--muted);margin-top:2px;}
+
+/* tip */
+.tip{display:flex;gap:14px;align-items:flex-start;border-left:5px solid var(--red);background:var(--paper2);padding:15px 18px;margin-top:16px;}
+.tip.warn{border-left-color:var(--red);}
+.tip .k{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:16px;color:var(--red);min-width:20px;}
+.tip p{font-size:14px;color:#3c342c;}
+.tip b{font-weight:700;}
+
+/* steps */
+.steps{counter-reset:s;margin-top:8px;}
+.pstep{display:flex;gap:18px;padding:17px 0;border-bottom:1px dashed rgba(26,22,20,.3);}
+.pstep:last-child{border-bottom:none;}
+.pstep .n{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:28px;color:var(--red);line-height:1;min-width:38px;}
+.pstep h3{font-family:'Zen Old Mincho',serif;font-size:16.5px;font-weight:700;margin-bottom:4px;}
+.pstep p{font-size:14px;color:#473f34;}
+
+.realtalk{background:var(--ink);color:#ece3d2;padding:28px 28px 24px;position:relative;margin-top:18px;}
+.realtalk::before{content:"正直なところ";position:absolute;top:-13px;left:20px;background:var(--red);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;padding:3px 12px;font-family:'Zen Kaku Gothic New',sans-serif;}
+.realtalk p{font-size:14.5px;color:#d8cfbe;}
+
+footer{padding:44px 0 0;border-top:1.5px solid var(--line);margin-top:40px;}
+.meta{font-family:'Cormorant',serif;font-style:italic;font-size:15px;color:var(--muted);letter-spacing:.04em;}
+
+::selection{background:var(--red);color:#fff;}
+
+@media(max-width:640px){
+  .ab{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Upcycle Index</a></nav>
+
+  <header>
+    <span class="tag">the art of hands — sponge ver.</span>
+    <h1>スポンジで、<br>布に押す。
+      <span class="en">block printing without carving</span>
+    </h1>
+    <p class="lede">
+      彫らなくていい。インドのブロックプリントの<b>あのぽってり感</b>は、実はスポンジのほうが出しやすかったりする。
+      Tシャツと手拭い、綿どうしだから道具はほぼ共通。まず気楽に、5回くらい試し押しから。
+    </p>
+    <div class="stamp-row">
+      <span class="stamp s1"></span><span class="stamp s2"></span>
+      <span class="stamp s3"></span><span class="stamp s4"></span>
+      <span class="stamp s5"></span>
+    </div>
+  </header>
+
+  <!-- 2つのやり方 -->
+  <section>
+    <div class="num">two ways</div>
+    <h2>スポンジの使い方は2通り<small>どっちもアリ、出る顔が違う</small></h2>
+    <div class="ab">
+      <div class="acard">
+        <span class="lab">A</span>
+        <h4>凸版にする</h4>
+        <div class="sub">スポンジを切って、押す</div>
+        <p>柄の形に切ったスポンジを台に貼って、ハンコみたいに押す。細い線は無理だけど、<mark>面（ベタ）の柄</mark>はむしろ木版よりキレイ。インドっぽいのはこっち。</p>
+        <div class="pick">→ ブロックプリント感ならコレ</div>
+      </div>
+      <div class="acard">
+        <span class="lab">B</span>
+        <h4>叩いて乗せる</h4>
+        <div class="sub">型紙＋ポンポン</div>
+        <p>型紙を布に置いて、スポンジでインクをポンポン。エッジがふわっとして、かすれやグラデが自由。連続柄に強い。仕上がりはステンシル寄り。</p>
+        <div class="pick">→ 柔らかい雰囲気ならコレ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 道具 -->
+  <section>
+    <div class="num">kit</div>
+    <h2>揃えるもの<small>綿（Tシャツ・手拭い）共通でいける</small></h2>
+    <ul class="kit">
+      <li>硬めのスポンジ<span>食器洗い用の硬いやつ、またはクラフト用EVAスポンジシート</span></li>
+      <li>布用テキスタイルインク<span>ターナーの布用えのぐ・ぺベオのセタカラー等。普通の絵具やスタンプ台はNG</span></li>
+      <li>ガラス板かアクリル板<span>インクを薄く伸ばす台</span></li>
+      <li>台になる板・厚紙<span>Aの凸版の持ち手兼押す面</span></li>
+      <li>両面テープか接着剤<span>スポンジを台に貼る</span></li>
+      <li>型紙用のクリアファイル・厚紙<span>Bをやるなら</span></li>
+      <li>アイロン<span>仕上げの熱定着用</span></li>
+    </ul>
+    <div class="tip warn">
+      <span class="k">!</span>
+      <p><b>普通の絵具・スタンプ台はNG。</b>布に定着しないので洗うと落ちる。必ず布用（テキスタイル）インクを使う。</p>
+    </div>
+  </section>
+
+  <!-- A 手順 -->
+  <section>
+    <div class="num">process — A 凸版</div>
+    <h2>スポンジ凸版の作り方</h2>
+    <div class="steps">
+      <div class="pstep"><div class="n">1</div><div><h3>スポンジを柄に切る</h3><p>丸・三角・葉っぱ・幾何学など単純な形が向く。ハサミやカッターで。</p></div></div>
+      <div class="pstep"><div class="n">2</div><div><h3>台に貼る</h3><p>切ったスポンジを板・アクリル板・厚紙に両面テープか接着剤で貼る。これが持ち手兼押す面に。</p></div></div>
+      <div class="pstep"><div class="n">3</div><div><h3>インクを乗せる</h3><p>ガラス板にインクを薄く伸ばし、スポンジ面を軽く押し当ててインクを含ませる。</p></div></div>
+      <div class="pstep"><div class="n">4</div><div><h3>布に押す</h3><p>位置を決めて押す。連続柄なら間隔を一定に。最初は試し押しで力加減を見る。</p></div></div>
+      <div class="pstep"><div class="n">5</div><div><h3>乾かして熱定着</h3><p>乾いたらアイロンの熱で定着。インクの説明書通りに。</p></div></div>
+    </div>
+  </section>
+
+  <!-- B 手順 -->
+  <section>
+    <div class="num">process — B ステンシル</div>
+    <h2>型紙＋ポンポンの作り方</h2>
+    <div class="steps">
+      <div class="pstep"><div class="n">1</div><div><h3>型紙を作る</h3><p>厚紙やクリアファイルで柄を切り抜く。繰り返し使えるので連続柄向き。</p></div></div>
+      <div class="pstep"><div class="n">2</div><div><h3>布に型紙を置く</h3><p>動かないように軽く固定。</p></div></div>
+      <div class="pstep"><div class="n">3</div><div><h3>スポンジで叩く</h3><p>インクを少量つけて、切り抜き部分をポンポン叩く。グラデやかすれも自在。</p></div></div>
+      <div class="pstep"><div class="n">4</div><div><h3>型紙を外す</h3><p>そっと外すと柄が出る。同じ型紙で繰り返し。</p></div></div>
+      <div class="pstep"><div class="n">5</div><div><h3>乾かして熱定着</h3><p>Aと同じく、乾燥後にアイロンで定着。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 注意 -->
+  <section>
+    <div class="num">fail points</div>
+    <h2>スポンジ版で特に注意</h2>
+    <div class="tip warn">
+      <span class="k">!</span>
+      <p><b>インクは少なめ・薄めに。</b>スポンジは穴が多くてインクを吸いすぎる。最初はベタっとなりがちなので、控えめに乗せるのがコツ。</p>
+    </div>
+    <div class="tip">
+      <span class="k">·</span>
+      <p><b>版は使い捨て感覚で。</b>スポンジは洗うと劣化する。きれいに長く使うより、気軽に作り替える前提で。</p>
+    </div>
+  </section>
+
+  <div class="realtalk">
+    <p>Tシャツと手拭いで「面の柄」をやりたいなら、Aのスポンジ凸版で単純な幾何学柄から入るのがおすすめ。失敗しにくいし、いかにもインドのブロックプリントっぽい連続模様が一番ラクに出せる。彫る木版に憧れるのもわかるけど、最初の一歩はスポンジで「押す感覚」を掴むほうが、たぶん楽しい。</p>
+  </div>
+
+  <footer>
+    <div class="meta">the art of hands — sponge block printing, a making note</div>
+  </footer>
+
+</div>
+</body>
+</html>

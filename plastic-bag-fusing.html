@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>レジ袋を、溶かして布にする — Upcycle 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Archivo:wght@400;600;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16161a;
+  --pink:#ff1f8e;
+  --pink-deep:#e60074;
+  --yellow:#ffe600;
+  --cyan:#00c2ff;
+  --green:#2fe06a;
+  --orange:#ff7a1a;
+  --paper:#ffffff;
+  --bg:#fbfbfb;
+  --line:#16161a;
+  --muted:#5c5a62;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Zen Kaku Gothic Antique',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(22,22,26,.05) 1px, transparent 0);
+  background-size:24px 24px;pointer-events:none;z-index:0;
+}
+.wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 24px;}
+
+/* nav */
+.backnav{padding:26px 0 0;}
+.backnav a{
+  font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;border-bottom:2px solid transparent;transition:.2s;
+}
+.backnav a:hover{color:var(--ink);border-color:var(--pink);}
+
+/* hero */
+header{padding:54px 0 56px;position:relative;}
+.tag{
+  display:inline-block;font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--ink);color:#fff;padding:7px 15px;margin-bottom:26px;
+}
+h1{
+  font-size:clamp(40px,8vw,76px);font-weight:900;line-height:1.04;
+  letter-spacing:-.02em;margin-bottom:24px;
+}
+h1 .en{
+  display:block;font-family:'Archivo Black',sans-serif;
+  font-size:clamp(16px,3vw,26px);letter-spacing:.02em;
+  color:var(--pink);margin-top:10px;text-transform:uppercase;
+}
+.lede{font-size:clamp(16px,2.4vw,20px);max-width:620px;color:#2c2b30;}
+.hand{
+  display:inline-block;font-family:'Archivo',sans-serif;font-style:italic;
+  font-weight:600;color:var(--muted);font-size:15px;margin-left:2px;
+}
+.swatches{display:flex;gap:9px;margin-top:34px;}
+.swatches span{width:38px;height:38px;border:2px solid var(--line);border-radius:50%;}
+
+/* section */
+section{padding:30px 0;border-top:2px solid var(--line);}
+.kicker{
+  font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+h2{font-size:clamp(26px,4.5vw,40px);font-weight:900;line-height:1.12;letter-spacing:-.01em;margin-bottom:22px;}
+
+/* principle */
+.principle{background:var(--paper);border:2px solid var(--line);padding:38px 34px;box-shadow:8px 8px 0 var(--cyan);}
+.principle .big{
+  font-family:'Archivo Black',sans-serif;font-size:clamp(38px,9vw,80px);
+  line-height:1;margin:6px 0 20px;letter-spacing:-.03em;
+}
+.principle p{font-size:16px;color:#2c2b30;margin-bottom:14px;}
+.note{font-size:14.5px!important;color:var(--muted)!important;border-left:3px solid var(--yellow);padding-left:14px;}
+
+/* matrix */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px;}
+.col{border:2px solid var(--line);background:var(--paper);}
+.col .head{font-weight:900;font-size:15px;padding:11px 14px;color:#fff;}
+.col.ok .head{background:var(--green);color:var(--ink);}
+.col.mid .head{background:var(--yellow);color:var(--ink);}
+.col.ng .head{background:var(--pink);}
+.col .body{padding:14px;}
+.col .item{font-weight:700;font-size:14.5px;margin-top:8px;}
+.col .item:first-child{margin-top:0;}
+.col .desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:6px;}
+.howto{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+.howto .h{border:2px solid var(--line);padding:16px 15px;background:var(--paper);}
+.howto .q{font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;}
+.howto h4{font-size:15px;margin:6px 0 6px;}
+.howto p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* materials */
+.materials{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:2px solid var(--line);background:var(--paper);}
+.mat{padding:20px 22px;border-bottom:2px solid var(--line);border-right:2px solid var(--line);}
+.mat:nth-child(2n){border-right:none;}
+.mat:nth-last-child(-n+2){border-bottom:none;}
+.mat .n{font-family:'Archivo Black',sans-serif;font-size:13px;color:var(--pink);}
+.mat strong{display:block;font-size:16px;margin:3px 0 5px;}
+.mat small{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:0;border-top:2px solid var(--line);}
+.step{display:flex;gap:22px;padding:24px 4px;border-bottom:2px solid var(--line);align-items:flex-start;}
+.step .num{font-family:'Archivo Black',sans-serif;font-size:34px;line-height:1;color:var(--ink);min-width:54px;}
+.step .micro{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pink-deep);}
+.step h3{font-size:19px;margin:3px 0 7px;}
+.step p{font-size:14.5px;color:#3a3940;}
+
+/* warns */
+.warn-head{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--pink-deep);}
+.warns{display:flex;flex-direction:column;gap:13px;margin-top:14px;}
+.warn{display:flex;gap:15px;align-items:flex-start;background:var(--paper);border:2px solid var(--line);padding:17px 18px;}
+.warn .mk{font-family:'Archivo Black',sans-serif;font-size:18px;line-height:1.1;min-width:30px;}
+.warn .mk.danger{color:var(--pink);}
+.warn .mk.tip{color:var(--cyan);}
+.warn span b{font-weight:900;}
+.warn span{font-size:14.5px;color:#33323a;}
+
+/* uses */
+.uses{display:flex;flex-wrap:wrap;gap:11px;margin-top:6px;}
+.uses .chip{border:2px solid var(--line);padding:9px 18px;border-radius:50px;font-size:15px;font-weight:700;background:var(--paper);}
+.uses .chip:nth-child(4n){background:var(--cyan);}
+.uses .chip:nth-child(4n+1){background:var(--yellow);}
+.uses .chip:nth-child(4n+2){background:var(--green);}
+
+/* realtalk */
+.realtalk{margin-top:18px;background:var(--ink);color:#f2f2f4;border:2px solid var(--line);padding:30px 30px 26px;position:relative;}
+.realtalk::before{content:"正直なところ";position:absolute;top:-14px;left:22px;background:var(--pink);color:#fff;font-size:12px;font-weight:700;letter-spacing:.1em;padding:4px 13px;}
+.realtalk p{font-size:15px;color:#dcdce0;}
+
+/* footer */
+footer{padding:46px 0 80px;border-top:2px solid var(--line);margin-top:30px;}
+.meta{font-family:'Archivo',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+::selection{background:var(--pink);color:#fff;}
+
+@media(max-width:640px){
+  .matrix,.howto{grid-template-columns:1fr;}
+  .materials{grid-template-columns:1fr;}
+  .mat{border-right:none!important;}
+  .mat:nth-last-child(2){border-bottom:2px solid var(--line);}
+  .step{gap:14px;}
+  .step .num{font-size:26px;min-width:40px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Upcycle Index</a></nav>
+
+  <header>
+    <span class="tag">Upcycle / 01 — Plastic Bag</span>
+    <h1>レジ袋を、<br>溶かして布にする。
+      <span class="en">Plastic Bag Fusing</span>
+    </h1>
+    <p class="lede">
+      捨てるしかなかったポリ袋を、アイロンの熱だけで一枚のシートに。道具はほぼ家にあるものだけ。
+      <span class="hand">— a candidate, not a conclusion.</span>
+    </p>
+    <div class="swatches">
+      <span style="background:#ff1f8e"></span>
+      <span style="background:#ffe600"></span>
+      <span style="background:#00c2ff"></span>
+      <span style="background:#2fe06a"></span>
+      <span style="background:#16161a"></span>
+    </div>
+  </header>
+
+  <!-- 原理 -->
+  <section>
+    <div class="kicker">なぜできるのか — why</div>
+    <div class="principle">
+      <h2 style="margin-bottom:0;">熱で溶けて、押すとくっつく。</h2>
+      <div class="big">PE → 1枚</div>
+      <p>レジ袋はほぼ全部がポリエチレン（PE）。熱で柔らかく溶ける「熱可塑性」を持っているので、重ねて熱を加えると分子同士がくっついて一枚のシートになる。難しい化学反応じゃなくて、ただ「溶かして圧着する」だけ。</p>
+      <p class="note">ポイントは素材を揃えること。レジ袋・ゴミ袋系（PE）で統一すれば、溶ける温度が同じだから均一にくっつく。</p>
+    </div>
+  </section>
+
+  <!-- 素材の見分け -->
+  <section>
+    <div class="kicker">そのまえに — どのプラが使える？</div>
+    <h2>使えるプラ、使えないプラ。</h2>
+    <div class="matrix">
+      <div class="col ok">
+        <div class="head">そのまま使える</div>
+        <div class="body">
+          <div class="item">レジ袋・ゴミ袋</div>
+          <div class="desc">PEで均一に溶ける。基本の素材。</div>
+          <div class="item">パン袋・マットなスナック袋</div>
+          <div class="desc">半透明・マットな質感のものは近い素材。</div>
+        </div>
+      </div>
+      <div class="col mid">
+        <div class="head">うまくいきにくい</div>
+        <div class="body">
+          <div class="item">アルミ蒸着フィルム</div>
+          <div class="desc">内側が銀色キラキラの袋。アルミ層が溶けず剥離・シワが出る。</div>
+          <div class="item">厚手・パリッと硬い袋</div>
+          <div class="desc">別素材や多層構造のことが多くムラに。</div>
+        </div>
+      </div>
+      <div class="col ng">
+        <div class="head">避ける</div>
+        <div class="body">
+          <div class="item">PVC（塩ビ）系</div>
+          <div class="desc">加熱で有害な塩素系ガス。絶対に溶かさない。</div>
+          <div class="item">素材表示がないもの</div>
+          <div class="desc">何のプラか分からないものは使わない。</div>
+        </div>
+      </div>
+    </div>
+    <div class="howto">
+      <div class="h"><span class="q">Check 01</span><h4>内側が銀色か</h4><p>銀色キラキラ＝アルミ蒸着で向かない。マットな白〜半透明なら使える可能性が高い。</p></div>
+      <div class="h"><span class="q">Check 02</span><h4>手触り</h4><p>レジ袋っぽくシャカシャカなら近い素材。パリッと硬い・厚手は別素材かも。</p></div>
+      <div class="h"><span class="q">Check 03</span><h4>三角マークの数字</h4><p>あればPE（▲2・▲4）が狙い目。種類を揃えるとムラが出にくい。</p></div>
+    </div>
+  </section>
+
+  <!-- 材料 -->
+  <section>
+    <div class="kicker">用意するもの — kit</div>
+    <h2>ぜんぶ、たぶん家にある。</h2>
+    <div class="materials">
+      <div class="mat"><span class="n">01</span><strong>レジ袋・ポリ袋</strong><small>PEで統一。色ごとに分けると配色を狙える。乾いた状態で。</small></div>
+      <div class="mat"><span class="n">02</span><strong>アイロン</strong><small>温度設定できるものが安心。スチームは使わずドライで。</small></div>
+      <div class="mat"><span class="n">03</span><strong>クッキングシート</strong><small>上下から挟む。アイロンにプラが直接つかないための必須アイテム。</small></div>
+      <div class="mat"><span class="n">04</span><strong>換気・マスク</strong><small>窓を開ける／換気扇。低温でもにおいは出る。</small></div>
+    </div>
+  </section>
+
+  <!-- 手順 -->
+  <section>
+    <div class="kicker">つくりかた — process</div>
+    <h2>過程はぜんぶ、こう。</h2>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><div>
+        <span class="micro">Sort &amp; Cut</span>
+        <h3>色ごとに切り分ける</h3>
+        <p>持ち手や底のマチを切り落として、平らな面を取る。色別に分けておくと、後でコラージュみたいに配色を作れる。</p>
+      </div></div>
+      <div class="step"><div class="num">02</div><div>
+        <span class="micro">Layer</span>
+        <h3>4〜6枚重ねる</h3>
+        <p>土台の色の上に、好きな色を並べて重ねる。枚数で厚みと強度が決まる。薄いとフニャフニャ、厚いとしっかり。</p>
+      </div></div>
+      <div class="step"><div class="num">03</div><div>
+        <span class="micro">Sandwich</span>
+        <h3>クッキングシートで挟む</h3>
+        <p>上下をクッキングシートで挟む。これを忘れるとアイロンに溶けたプラが貼り付いて地獄。</p>
+      </div></div>
+      <div class="step"><div class="num">04</div><div>
+        <span class="micro">Press — low &amp; slow</span>
+        <h3>低〜中温で押す</h3>
+        <p>低めの温度で、ゆっくり全体に圧をかける。一か所に留めすぎず動かしながら。溶け具合はシート越しに透けて見える。</p>
+      </div></div>
+      <div class="step"><div class="num">05</div><div>
+        <span class="micro">Peel</span>
+        <h3>冷めてから剥がす</h3>
+        <p>少し冷ましてからクッキングシートを剥がす。熱いうちに引っぱると伸びる。一枚の丈夫なシートになっていれば成功。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 注意点 -->
+  <section>
+    <div class="kicker">きをつけること</div>
+    <span class="warn-head">Safety &amp; Fail Points</span>
+    <div class="warns">
+      <div class="warn"><div class="mk danger">!!</div><span><b>必ず換気する。</b>ポリエチレンでも溶かすと多少の煙とにおいが出る。低温でじわじわが基本。気分が悪くなったら中止。</span></div>
+      <div class="warn"><div class="mk danger">!!</div><span><b>PVC（塩ビ）は絶対に溶かさない。</b>加熱で有害な塩素系ガスが出る。素材不明のものも使わない。</span></div>
+      <div class="warn"><div class="mk tip">✓</div><span><b>シートは必ず挟む。</b>アイロンに直接プラが触れると溶けて貼り付く。クッキングシートは上下両方。</span></div>
+      <div class="warn"><div class="mk tip">✓</div><span><b>枚数でテストする。</b>厚み・強度は重ねる枚数次第。まず端切れで何枚がいいか試してから本番。</span></div>
+    </div>
+  </section>
+
+  <!-- 用途 -->
+  <section>
+    <div class="kicker">なにに使える — uses</div>
+    <h2>布みたいに、縫える。</h2>
+    <div class="uses">
+      <span class="chip">ポーチ・小物入れ</span>
+      <span class="chip">ブックカバー</span>
+      <span class="chip">ランチョンマット</span>
+      <span class="chip">切り抜いてオーナメント</span>
+      <span class="chip">タグ・しおり</span>
+    </div>
+    <div class="realtalk">
+      <p>仕上がりは「布」というより、ちょっと革っぽい／フェルトっぽい質感になることが多い。熱に弱いのが前提だから、熱いものを置く用途には向かない。古民家まわりで出るレジ袋を素材にする、という意味では相性がいい。まず端切れで一枚試して、自分の手で質感を確かめるのがいちばん早い。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="meta">Upcycle Series 01 / Plastic Bag Fusing — a making note</div>
+  </footer>
+
+</div>
+</body>
+</html>

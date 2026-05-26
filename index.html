@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作りたいものメモ — Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Archivo:wght@400;600;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16161a;
+  --bg:#f5f2ec;
+  --paper:#ffffff;
+  --pink:#ff1f8e;
+  --yellow:#ffe600;
+  --cyan:#00c2ff;
+  --green:#2fe06a;
+  --red:#e8331c;
+  --stamp:#c0473a;
+  --line:#16161a;
+  --muted:#6b6557;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(22,22,26,.045) 1px, transparent 0);background-size:24px 24px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px;}
+
+header{padding:78px 0 50px;position:relative;}
+.tag{display:inline-block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;background:var(--ink);color:#fff;padding:7px 15px;margin-bottom:26px;}
+h1{font-size:clamp(40px,9vw,82px);font-weight:900;line-height:1.02;letter-spacing:-.02em;}
+h1 .en{display:block;font-family:'Archivo Black',sans-serif;font-size:clamp(15px,3vw,24px);letter-spacing:.02em;color:var(--pink);margin-top:12px;text-transform:uppercase;}
+.lede{font-size:clamp(15px,2.3vw,18.5px);max-width:600px;color:#33312c;margin-top:24px;}
+.hand{font-family:'Archivo',sans-serif;font-style:italic;font-weight:600;color:var(--muted);font-size:14.5px;}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:14px 0 60px;}
+.cardlink{display:block;text-decoration:none;color:inherit;background:var(--paper);border:2px solid var(--line);padding:26px 26px 28px;position:relative;transition:transform .15s, box-shadow .15s;overflow:hidden;}
+.cardlink:hover{transform:translate(-3px,-3px);}
+.cardlink .no{font-family:'Archivo Black',sans-serif;font-size:13px;letter-spacing:.04em;color:var(--muted);}
+.cardlink h2{font-size:clamp(21px,3vw,27px);font-weight:900;line-height:1.18;margin:6px 0 8px;letter-spacing:-.01em;}
+.cardlink .en{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.cardlink p{font-size:13.5px;color:#4a473f;margin-top:12px;}
+.cardlink .go{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-top:16px;display:inline-block;border-bottom:2px solid;}
+.dot{position:absolute;top:24px;right:24px;width:22px;height:22px;border:2px solid var(--line);border-radius:50%;}
+
+.cardlink:hover{box-shadow:8px 8px 0 var(--c);}
+.c1{--c:var(--pink);} .c1 .go,.c1 .no{color:var(--pink-deep,#e60074);} .c1 .dot{background:var(--pink);}
+.c2{--c:var(--green);} .c2 .dot{background:var(--green);} .c2 .go{color:#1f9c4a;}
+.c3{--c:var(--red);} .c3 .dot{background:var(--red);} .c3 .go{color:var(--red);}
+.c4{--c:var(--stamp);} .c4 .dot{background:var(--stamp);} .c4 .go{color:var(--stamp);}
+.c5{--c:var(--cyan);} .c5 .dot{background:var(--cyan);} .c5 .go{color:#0a8fc2;}
+
+.note{grid-column:1/-1;background:var(--ink);color:#e8e8ec;border:2px solid var(--line);padding:24px 26px;font-size:14px;}
+.note b{color:var(--yellow);font-weight:700;}
+
+footer{padding:30px 0 80px;border-top:2px solid var(--line);}
+.meta{font-family:'Archivo',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+::selection{background:var(--pink);color:#fff;}
+
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="tag">Things I want to make</span>
+    <h1>作りたいもの、<br>メモ。
+      <span class="en">A making index</span>
+    </h1>
+    <p class="lede">
+      頭の中にある「作りたいもの」を、テーマごとに1枚ずつ。手順と注意点と、正直なところ。
+      <span class="hand">— a candidate, not a conclusion.</span>
+    </p>
+  </header>
+
+  <div class="grid">
+
+    <a class="cardlink c1" href="plastic-bag-fusing.html">
+      <div class="dot"></div>
+      <div class="no">UPCYCLE / 01</div>
+      <h2>レジ袋を、<br>溶かして布にする</h2>
+      <div class="en">Plastic Bag Fusing</div>
+      <p>アイロンの熱でポリ袋を一枚のシートに。道具はほぼ家にあるものだけ。</p>
+      <span class="go">開く →</span>
+    </a>
+
+    <a class="cardlink c2" href="bottle-caps.html">
+      <div class="dot"></div>
+      <div class="no">UPCYCLE / 02</div>
+      <h2>キャップを、<br>溶かして固める</h2>
+      <div class="en">Melting Bottle Caps</div>
+      <p>色ごとに集めて、オーブンで溶かして型に。マーブルは偶然。注意点全部入り。</p>
+      <span class="go">開く →</span>
+    </a>
+
+    <a class="cardlink c3" href="silkscreen-htv.html">
+      <div class="dot"></div>
+      <div class="no">PRINT / 03</div>
+      <h2>HTVで版を作る<br>簡易シルクスクリーン</h2>
+      <div class="en">Silkscreen, the easy way</div>
+      <p>乳剤なしでシート印刷。ガッシュ＋メディウムと専用インク、両方を比較。</p>
+      <span class="go">開く →</span>
+    </a>
+
+    <a class="cardlink c4" href="block-print.html">
+      <div class="dot"></div>
+      <div class="no">PRINT / 04</div>
+      <h2>スポンジで、<br>布に押す</h2>
+      <div class="en">Block printing w/o carving</div>
+      <p>彫らないブロックプリント。凸版とステンシル、2通りのやり方。</p>
+      <span class="go">開く →</span>
+    </a>
+
+    <a class="cardlink c5" href="kindle-photobook-guide.html">
+      <div class="dot"></div>
+      <div class="no">PUBLISH / 05</div>
+      <h2>旅の写真集を、<br>Kindleで売る</h2>
+      <div class="en">Travel photo book</div>
+      <p>3カ国語キャプションの旅の記録本。作り方と売り方をまとめて。</p>
+      <span class="go">開く →</span>
+    </a>
+
+    <div class="note">
+      <b>使い方メモ：</b> 5つのHTMLは同じフォルダに入れておけば、このリンクがそのまま機能します。GitHub Pages や Vercel に上げるときも、まとめて同じ場所に置けば <code>index.html</code> が入口になります。テーマを足したくなったら、同じ作りでカードを1枚増やすだけ。
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="meta">A making index — 2026</div>
+  </footer>
+
+</div>
+</body>
+</html>
