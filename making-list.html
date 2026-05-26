@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作る順番、やることリスト — Making List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700;900&family=Archivo:wght@400;600;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16161a;
+  --bg:#f5f2ec;
+  --paper:#ffffff;
+  --pink:#ff1f8e;
+  --pink-deep:#e60074;
+  --yellow:#ffe600;
+  --cyan:#00c2ff;
+  --green:#2fe06a;
+  --red:#e8331c;
+  --stamp:#c0473a;
+  --line:#16161a;
+  --muted:#6b6557;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic Antique',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(22,22,26,.045) 1px, transparent 0);background-size:24px 24px;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px;}
+
+/* nav */
+.backnav{padding:26px 0 0;}
+.backnav a{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:.2s;}
+.backnav a:hover{color:var(--ink);border-color:var(--pink);}
+
+/* header */
+header{padding:54px 0 40px;position:relative;}
+.tag{display:inline-block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase;background:var(--ink);color:#fff;padding:7px 15px;margin-bottom:26px;}
+h1{font-size:clamp(40px,9vw,82px);font-weight:900;line-height:1.02;letter-spacing:-.02em;}
+h1 .en{display:block;font-family:'Archivo Black',sans-serif;font-size:clamp(15px,3vw,24px);letter-spacing:.02em;color:var(--pink);margin-top:12px;text-transform:uppercase;}
+.lede{font-size:clamp(15px,2.3vw,18.5px);max-width:600px;color:#33312c;margin-top:24px;}
+.hand{font-family:'Archivo',sans-serif;font-style:italic;font-weight:600;color:var(--muted);font-size:14.5px;}
+
+/* stat bar */
+.statbar{display:flex;gap:0;border:2px solid var(--line);background:var(--paper);margin-top:32px;}
+.statbar .cell{flex:1;padding:14px 16px;border-right:2px solid var(--line);}
+.statbar .cell:last-child{border-right:none;}
+.statbar .lab{font-family:'Archivo',sans-serif;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.statbar .val{font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1.1;margin-top:2px;}
+.statbar .val small{font-size:14px;color:var(--muted);}
+
+/* add form */
+.addbox{border:2px solid var(--line);background:var(--ink);padding:22px 22px 24px;margin-top:18px;}
+.addbox .ttl{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:14px;}
+.addbox .field{margin-bottom:12px;}
+.addbox label{display:block;font-size:12px;color:#b5b3bd;margin-bottom:5px;font-weight:500;}
+.addbox input[type=text]{width:100%;font-family:inherit;font-size:16px;padding:11px 13px;border:2px solid var(--line);background:var(--paper);color:var(--ink);}
+.addbox input[type=text]:focus{outline:none;box-shadow:4px 4px 0 var(--pink);}
+.theme-pick{display:flex;flex-wrap:wrap;gap:8px;}
+.theme-pick button{font-family:inherit;font-weight:700;font-size:12.5px;padding:7px 13px;border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;transition:.12s;}
+.theme-pick button[aria-pressed=true]{box-shadow:3px 3px 0 var(--c,#000);transform:translate(-1px,-1px);}
+.theme-pick button .dotmini{display:inline-block;width:11px;height:11px;border:1.5px solid var(--line);border-radius:50%;background:var(--c,#fff);vertical-align:middle;margin-right:6px;}
+.addbtn{font-family:'Archivo',sans-serif;font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:var(--pink);color:#fff;border:2px solid var(--line);padding:12px 22px;cursor:pointer;margin-top:6px;transition:.12s;}
+.addbtn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--yellow);}
+
+/* list */
+.list{padding:8px 0 20px;display:flex;flex-direction:column;gap:14px;}
+.empty{border:2px dashed var(--line);padding:46px 26px;text-align:center;color:var(--muted);margin-top:18px;}
+.empty b{display:block;font-size:18px;color:var(--ink);margin-bottom:6px;font-weight:900;}
+
+.card{border:2px solid var(--line);background:var(--paper);position:relative;transition:box-shadow .15s, transform .15s;overflow:hidden;}
+.card.dragging{opacity:.4;}
+.card.dragover{box-shadow:0 -4px 0 var(--pink);}
+.card.done{opacity:.62;}
+.card .stripe{height:8px;background:var(--c,var(--muted));border-bottom:2px solid var(--line);}
+.card .top{display:flex;gap:14px;align-items:flex-start;padding:18px 20px 16px;}
+.card .order{font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1;color:var(--muted);min-width:42px;cursor:grab;user-select:none;}
+.card .order:active{cursor:grabbing;}
+.card .order .gr{display:block;font-size:10px;letter-spacing:.1em;color:var(--muted);margin-top:3px;}
+.card .main{flex:1;min-width:0;}
+.card .name{font-size:20px;font-weight:900;line-height:1.25;letter-spacing:-.01em;word-break:break-word;}
+.card.done .name{text-decoration:line-through;text-decoration-thickness:2px;}
+.card .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:9px;}
+.card .themechip{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border:2px solid var(--line);background:var(--c,#fff);}
+.card .themechip.dark{color:#fff;}
+
+/* status segmented */
+.status{display:inline-flex;border:2px solid var(--line);}
+.status button{font-family:inherit;font-weight:700;font-size:11.5px;padding:4px 10px;background:var(--paper);color:var(--muted);border:none;border-right:2px solid var(--line);cursor:pointer;transition:.1s;}
+.status button:last-child{border-right:none;}
+.status button[aria-pressed=true]{color:var(--ink);}
+.status button.s-todo[aria-pressed=true]{background:var(--yellow);}
+.status button.s-wip[aria-pressed=true]{background:var(--cyan);}
+.status button.s-done[aria-pressed=true]{background:var(--green);}
+
+.card .tools{display:flex;gap:6px;flex-shrink:0;}
+.iconbtn{font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.04em;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;transition:.12s;}
+.iconbtn:hover{background:var(--ink);color:#fff;}
+.iconbtn.del:hover{background:var(--red);border-color:var(--red);}
+
+/* notes */
+.notes{border-top:2px dashed rgba(22,22,26,.25);padding:14px 20px 18px;background:#faf8f3;}
+.notes .nh{font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.note{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed rgba(22,22,26,.18);align-items:flex-start;}
+.note:last-of-type{border-bottom:none;}
+.note .date{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;color:var(--pink-deep);min-width:74px;letter-spacing:.02em;padding-top:2px;}
+.note .body{flex:1;font-size:14.5px;color:#33323a;white-space:pre-wrap;word-break:break-word;}
+.note .x{cursor:pointer;color:var(--muted);font-weight:800;font-size:13px;line-height:1;padding:3px 5px;flex-shrink:0;}
+.note .x:hover{color:var(--red);}
+.nonote{font-size:13px;color:var(--muted);font-style:italic;}
+.noteadd{display:flex;gap:8px;margin-top:12px;}
+.noteadd input{flex:1;font-family:inherit;font-size:14.5px;padding:9px 11px;border:2px solid var(--line);background:var(--paper);color:var(--ink);}
+.noteadd input:focus{outline:none;box-shadow:3px 3px 0 var(--cyan);}
+.noteadd button{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;padding:0 16px;border:2px solid var(--line);background:var(--ink);color:#fff;cursor:pointer;transition:.12s;}
+.noteadd button:hover{background:var(--cyan);color:var(--ink);}
+
+.foldbtn{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;padding:6px 20px 14px;display:flex;align-items:center;gap:6px;}
+.foldbtn:hover{color:var(--ink);}
+.foldbtn .cnt{background:var(--ink);color:#fff;border-radius:50px;font-size:10px;padding:1px 7px;}
+
+/* hint */
+.note-hint{grid-column:1/-1;background:var(--ink);color:#e8e8ec;border:2px solid var(--line);padding:20px 24px;font-size:13.5px;margin-top:8px;}
+.note-hint b{color:var(--yellow);font-weight:700;}
+
+footer{padding:30px 0 80px;border-top:2px solid var(--line);margin-top:30px;}
+.meta{font-family:'Archivo',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.reset{float:right;font-family:'Archivo',sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;}
+.reset:hover{color:var(--red);}
+
+::selection{background:var(--pink);color:#fff;}
+
+@media(max-width:640px){
+  .statbar{flex-wrap:wrap;}
+  .statbar .cell{flex:1 1 50%;border-bottom:2px solid var(--line);}
+  .statbar .cell:nth-child(2){border-right:none;}
+  .statbar .cell:nth-last-child(-n+2){border-bottom:none;}
+  .card .top{flex-wrap:wrap;}
+  .card .tools{order:3;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="backnav"><a href="index.html">← Making Index</a></nav>
+
+  <header>
+    <span class="tag">What I'll actually make</span>
+    <h1>作る順番、<br>やることリスト。
+      <span class="en">A making list</span>
+    </h1>
+    <p class="lede">
+      「作れるもの」じゃなくて「作ると決めたもの」だけ。やる順に並べて、やってみるたびにメモを足していく。
+      <span class="hand">— process over conclusion.</span>
+    </p>
+
+    <div class="statbar">
+      <div class="cell"><div class="lab">All</div><div class="val" id="st-all">0</div></div>
+      <div class="cell"><div class="lab">やりたい</div><div class="val" id="st-todo">0</div></div>
+      <div class="cell"><div class="lab">試作中</div><div class="val" id="st-wip">0</div></div>
+      <div class="cell"><div class="lab">完成</div><div class="val" id="st-done">0</div></div>
+    </div>
+  </header>
+
+  <!-- add -->
+  <div class="addbox">
+    <div class="ttl">＋ 作るものを足す</div>
+    <div class="field">
+      <label for="newname">作るもの（例：レジ袋シートでブックカバー）</label>
+      <input type="text" id="newname" placeholder="ここに入力してEnter、または下のボタン" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>どのテーマ由来？（任意・色で紐づけ）</label>
+      <div class="theme-pick" id="themepick"></div>
+    </div>
+    <button class="addbtn" id="addbtn">リストに足す</button>
+  </div>
+
+  <!-- list -->
+  <div class="list" id="list"></div>
+
+  <div class="note-hint">
+    <b>使い方：</b> 番号の数字をつかんでドラッグすると、やる順を入れ替えられます。ステータス（やりたい／試作中／完成）はいつでも切り替え可。各カードの「＋メモ」を開けば、試して気づいたことを日付つきで残せます。データはこのブラウザに自動保存されるので、同じブラウザで開けば続きから。
+  </div>
+
+  <footer>
+    <button class="reset" id="resetbtn">すべて消す</button>
+    <div class="meta">A making list — 2026</div>
+  </footer>
+
+</div>
+
+<script>
+// ---- テーマ定義（既存5枚の配色に紐づけ）----
+const THEMES = [
+  {id:"bag",   label:"レジ袋",        color:"#ff1f8e", dark:false},
+  {id:"caps",  label:"キャップ",      color:"#2fe06a", dark:false},
+  {id:"silk",  label:"シルクスクリーン", color:"#e8331c", dark:true},
+  {id:"block", label:"ブロックプリント", color:"#c0473a", dark:true},
+  {id:"book",  label:"写真集",        color:"#00c2ff", dark:false},
+  {id:"other", label:"その他",        color:"#ffe600", dark:false}
+];
+const themeById = id => THEMES.find(t=>t.id===id) || null;
+
+const STATUS = [
+  {id:"todo", label:"やりたい", cls:"s-todo"},
+  {id:"wip",  label:"試作中",   cls:"s-wip"},
+  {id:"done", label:"完成",     cls:"s-done"}
+];
+
+const KEY = "making-list-v1";
+let items = load();
+let selectedTheme = null;
+
+function load(){
+  try{ const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : []; }
+  catch(e){ return []; }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(items)); }catch(e){}
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function today(){
+  const d=new Date();
+  return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
+}
+function esc(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// ---- テーマ選択ボタン ----
+function buildThemePick(){
+  const wrap = document.getElementById("themepick");
+  wrap.innerHTML = "";
+  THEMES.forEach(t=>{
+    const b=document.createElement("button");
+    b.style.setProperty("--c",t.color);
+    b.setAttribute("aria-pressed","false");
+    b.innerHTML = `<span class="dotmini"></span>${t.label}`;
+    b.onclick=()=>{
+      if(selectedTheme===t.id){ selectedTheme=null; }
+      else { selectedTheme=t.id; }
+      [...wrap.children].forEach((c,i)=>c.setAttribute("aria-pressed", THEMES[i].id===selectedTheme ? "true":"false"));
+    };
+    wrap.appendChild(b);
+  });
+}
+
+// ---- 追加 ----
+function addItem(){
+  const inp=document.getElementById("newname");
+  const name=inp.value.trim();
+  if(!name) { inp.focus(); return; }
+  items.push({ id:uid(), name, theme:selectedTheme, status:"todo", notes:[], open:false });
+  inp.value="";
+  selectedTheme=null;
+  [...document.getElementById("themepick").children].forEach(c=>c.setAttribute("aria-pressed","false"));
+  save(); render();
+  inp.focus();
+}
+
+// ---- メモ追加 ----
+function addNote(itemId, text){
+  const it=items.find(i=>i.id===itemId);
+  if(!it || !text.trim()) return;
+  it.notes.push({ id:uid(), date:today(), text:text.trim() });
+  it.open=true;
+  save(); render();
+}
+
+// ---- 描画 ----
+function render(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+
+  // stats
+  document.getElementById("st-all").textContent=items.length;
+  document.getElementById("st-todo").textContent=items.filter(i=>i.status==="todo").length;
+  document.getElementById("st-wip").textContent=items.filter(i=>i.status==="wip").length;
+  document.getElementById("st-done").textContent=items.filter(i=>i.status==="done").length;
+
+  if(items.length===0){
+    const e=document.createElement("div");
+    e.className="empty";
+    e.innerHTML="<b>まだ空っぽ。</b>上の入力欄に、最初に作ると決めたものを入れてください。";
+    list.appendChild(e);
+    return;
+  }
+
+  items.forEach((it,idx)=>{
+    const th=themeById(it.theme);
+    const card=document.createElement("div");
+    card.className="card"+(it.status==="done"?" done":"");
+    card.dataset.id=it.id;
+    if(th) card.style.setProperty("--c",th.color);
+
+    // stripe
+    const stripe=document.createElement("div");
+    stripe.className="stripe";
+    card.appendChild(stripe);
+
+    // top
+    const top=document.createElement("div");
+    top.className="top";
+
+    const order=document.createElement("div");
+    order.className="order";
+    order.setAttribute("draggable","true");
+    order.title="ドラッグで並べ替え";
+    order.innerHTML=`${String(idx+1).padStart(2,"0")}<span class="gr">⠿ drag</span>`;
+    top.appendChild(order);
+
+    const main=document.createElement("div");
+    main.className="main";
+    let metaHtml=`<div class="meta">`;
+    if(th){
+      metaHtml+=`<span class="themechip${th.dark?" dark":""}">${esc(th.label)}</span>`;
+    }
+    metaHtml+=`<span class="status">`;
+    STATUS.forEach(s=>{
+      metaHtml+=`<button class="${s.cls}" data-st="${s.id}" aria-pressed="${it.status===s.id}">${s.label}</button>`;
+    });
+    metaHtml+=`</span></div>`;
+    main.innerHTML=`<div class="name">${esc(it.name)}</div>${metaHtml}`;
+    top.appendChild(main);
+
+    const tools=document.createElement("div");
+    tools.className="tools";
+    tools.innerHTML=`<button class="iconbtn up" title="上へ">↑</button>
+                     <button class="iconbtn down" title="下へ">↓</button>
+                     <button class="iconbtn del" title="削除">✕</button>`;
+    top.appendChild(tools);
+    card.appendChild(top);
+
+    // fold button + notes
+    const foldBtn=document.createElement("button");
+    foldBtn.className="foldbtn";
+    foldBtn.innerHTML=`${it.open?"▾":"▸"} ＋メモ <span class="cnt">${it.notes.length}</span>`;
+    card.appendChild(foldBtn);
+
+    const notes=document.createElement("div");
+    notes.className="notes";
+    notes.style.display=it.open?"block":"none";
+    let nh=`<div class="nh">やってみたメモ — log</div>`;
+    if(it.notes.length===0){
+      nh+=`<div class="nonote">まだメモなし。試したこと・気づいたこと・失敗を残しておく。</div>`;
+    }else{
+      it.notes.forEach(n=>{
+        nh+=`<div class="note" data-nid="${n.id}"><span class="date">${esc(n.date)}</span><span class="body">${esc(n.text)}</span><span class="x" title="このメモを消す">✕</span></div>`;
+      });
+    }
+    nh+=`<div class="noteadd"><input type="text" placeholder="気づいたこと、試したこと…" autocomplete="off"><button>足す</button></div>`;
+    notes.innerHTML=nh;
+    card.appendChild(notes);
+
+    // ---- events ----
+    main.querySelectorAll(".status button").forEach(b=>{
+      b.onclick=()=>{ it.status=b.dataset.st; save(); render(); };
+    });
+    tools.querySelector(".up").onclick=()=>move(idx,-1);
+    tools.querySelector(".down").onclick=()=>move(idx,1);
+    tools.querySelector(".del").onclick=()=>{
+      if(confirm(`「${it.name}」を消す？メモも一緒に消えます。`)){ items.splice(idx,1); save(); render(); }
+    };
+    foldBtn.onclick=()=>{ it.open=!it.open; save(); render(); };
+
+    const ni=notes.querySelector(".noteadd input");
+    const nb=notes.querySelector(".noteadd button");
+    nb.onclick=()=>addNote(it.id, ni.value);
+    ni.onkeydown=(e)=>{ if(e.key==="Enter") addNote(it.id, ni.value); };
+    notes.querySelectorAll(".note .x").forEach(x=>{
+      x.onclick=()=>{
+        const nid=x.closest(".note").dataset.nid;
+        it.notes=it.notes.filter(n=>n.id!==nid);
+        save(); render();
+      };
+    });
+
+    // ---- drag & drop（番号をつかむ）----
+    order.addEventListener("dragstart",e=>{
+      e.dataTransfer.effectAllowed="move";
+      e.dataTransfer.setData("text/plain",it.id);
+      card.classList.add("dragging");
+    });
+    order.addEventListener("dragend",()=>{
+      card.classList.remove("dragging");
+      document.querySelectorAll(".card").forEach(c=>c.classList.remove("dragover"));
+    });
+    card.addEventListener("dragover",e=>{ e.preventDefault(); card.classList.add("dragover"); });
+    card.addEventListener("dragleave",()=>card.classList.remove("dragover"));
+    card.addEventListener("drop",e=>{
+      e.preventDefault();
+      card.classList.remove("dragover");
+      const fromId=e.dataTransfer.getData("text/plain");
+      if(fromId===it.id) return;
+      const from=items.findIndex(i=>i.id===fromId);
+      const to=items.findIndex(i=>i.id===it.id);
+      if(from<0||to<0) return;
+      const [moved]=items.splice(from,1);
+      items.splice(to,0,moved);
+      save(); render();
+    });
+
+    list.appendChild(card);
+  });
+}
+
+function move(idx,dir){
+  const j=idx+dir;
+  if(j<0||j>=items.length) return;
+  [items[idx],items[j]]=[items[j],items[idx]];
+  save(); render();
+}
+
+// ---- init ----
+buildThemePick();
+document.getElementById("addbtn").onclick=addItem;
+document.getElementById("newname").addEventListener("keydown",e=>{ if(e.key==="Enter") addItem(); });
+document.getElementById("resetbtn").onclick=()=>{
+  if(items.length && confirm("全部消して空に戻す？元には戻せません。")){ items=[]; save(); render(); }
+};
+render();
+</script>
+</body>
+</html>

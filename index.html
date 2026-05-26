@@ -50,6 +50,16 @@ h1 .en{display:block;font-family:'Archivo Black',sans-serif;font-size:clamp(15px
 .c4{--c:var(--stamp);} .c4 .dot{background:var(--stamp);} .c4 .go{color:var(--stamp);}
 .c5{--c:var(--cyan);} .c5 .dot{background:var(--cyan);} .c5 .go{color:#0a8fc2;}
 
+/* list card — 5テーマを束ねる総覧。黒地で性格を変える */
+.cardlink.list{grid-column:1/-1;background:var(--ink);color:#f1f0ec;border-color:var(--line);--c:var(--yellow);}
+.cardlink.list h2{color:#fff;}
+.cardlink.list .no{color:var(--yellow);}
+.cardlink.list .en{color:#9b988e;}
+.cardlink.list p{color:#cfccc4;}
+.cardlink.list .go{color:var(--yellow);}
+.cardlink.list .dot{background:var(--yellow);border-color:var(--yellow);}
+.cardlink.list:hover{box-shadow:8px 8px 0 var(--pink);}
+
 .note{grid-column:1/-1;background:var(--ink);color:#e8e8ec;border:2px solid var(--line);padding:24px 26px;font-size:14px;}
 .note b{color:var(--yellow);font-weight:700;}
 
@@ -122,6 +132,15 @@ footer{padding:30px 0 80px;border-top:2px solid var(--line);}
       <div class="en">Travel photo book</div>
       <p>3カ国語キャプションの旅の記録本。作り方と売り方をまとめて。</p>
       <span class="go">開く →</span>
+    </a>
+
+    <a class="cardlink list" href="making-list.html">
+      <div class="dot"></div>
+      <div class="no">MAKING LIST / ✓</div>
+      <h2>作ると決めたものを、<br>やる順に並べる</h2>
+      <div class="en">A making list</div>
+      <p>上の5テーマから「実際に作る」と決めたものだけ。順番を並べ替えて、やってみるたびに日付つきメモを足していく場所。</p>
+      <span class="go">リストを開く →</span>
     </a>
 
     <div class="note">
